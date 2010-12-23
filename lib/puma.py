@@ -28,7 +28,11 @@ class Puma():
     def run_instance(self, image_name):
         image = self.get_image_list()
         try:
-            print self.get_image_list()[image.index(image_name)]
+            boto.run_instances(image_id=self.get_image_list()[image.index(image_name)],
+                               min_count=1,
+                               placement=None,
+                               instance_type="m1.tiny",
+                               max_count=1)
         except:
             print "Image does not exist"
 

@@ -18,7 +18,7 @@ class CLI:
                 print image
         if arg == "instances":
             for instance in puma.get_instance_list():
-                print instance.id
+                print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.state
 
 
 cli = CLI()
