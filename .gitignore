@@ -1,0 +1,6 @@
+*.pem
+westrc
+eastrc
+*.conf
+*.swp
+*.pyc
