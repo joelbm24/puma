@@ -19,6 +19,14 @@ class Puma():
                                                   self.config.get('ip', "10.255.24.10")),
                                 port=self.config.get('port', 8773),
                                 path=self.config.get('path', "services/Cloud"))
+
+    def auth_group(self):
+        self.connect.authorize_security_group(self.config.get("security_group", "defualt"),
+                                                      ip_protocol='tcp',
+                                                      from_port='22',
+                                                      to_port='22',
+                                      cidr_ip='%s/32' % self.config.get("ip", "10.255.24.10"))
+
     def get_image_list(self):
         return [image.id for image in self.connect().get_all_images()]
 
@@ -26,13 +34,16 @@ class Puma():
         return sum([instance.instances for instance in self.connect().get_all_instances()], [])
 
     def run_instance(self, image_name):
+        self.auth_group()
         image = self.get_image_list()
         try:
-            boto.run_instances(image_id=self.get_image_list()[image.index(image_name)],
+            self.connect.run_instances(image_id=image_name,
                                min_count=1,
                                placement=None,
+                               group_id=self.config.get('security_group', "defualt"),
                                instance_type="m1.tiny",
-                               max_count=1)
+                               max_count=1,
+                               key_name=self.config.get('keyfile', "keyfile.pem"))
         except:
             print "Image does not exist"
 
