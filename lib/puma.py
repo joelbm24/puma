@@ -34,16 +34,11 @@ class Puma():
         return sum([instance.instances for instance in self.connect().get_all_instances()], [])
 
     def run_instance(self, image_name):
-        self.auth_group()
-        image = self.get_image_list()
-        try:
-            self.connect().run_instances(image_id=image_name,
+        #self.auth_group()
+        print self.connect().run_instances(image_id=image_name,
                                min_count=1,
                                placement=None,
                                group_id=self.config.get('security_group', "default"),
                                instance_type="m1.tiny",
-                               max_count=1,
-                               key_name=self.config.get('keyfile', "keyfile.pem"))
-        except:
-            print "Image does not exist"
+                               max_count=1)
 
