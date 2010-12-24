@@ -18,11 +18,21 @@ class CLI:
                 print image
         if arg == "instances":
             for instance in puma.get_instance_list():
-                print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.state
+                print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.dns_name, "\t", instance.state
 
 
     def ssh(self, arg):
-        os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"] + " " + arg)
+        print puma.get_instance_list()
+        try:
+            int(arg[0])
+            os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"] + " " + arg)
+        except:
+            try:
+                for instance in puma.get_instance_list():
+                     if str(instance.id) == arg:
+                         os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"]+" "+instance.dns_name)
+            except ValueError:
+                print "ERROR: Instance does not exist"
 
 cli = CLI()
 
