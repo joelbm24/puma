@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/python
 
 import yaml, boto, os
 from boto.ec2.regioninfo import RegionInfo
@@ -16,16 +16,16 @@ class Puma():
                                 aws_secret_access_key=self.config["access_secret"],
                                 is_secure=False,
                                 region=RegionInfo(None, self.config.get('location', "nova"),
-                                                  self.config.get('ip', "10.255.24.10")),
+                                                  self.config.get('ip', "127.0.0.1")),
                                 port=self.config.get('port', 8773),
                                 path=self.config.get('path', "services/Cloud"))
 
     def auth_group(self):
-        self.connect.authorize_security_group(self.config.get("security_group", "defualt"),
+        self.connect.authorize_security_group(self.config.get("security_group", "default"),
                                                       ip_protocol='tcp',
                                                       from_port='22',
                                                       to_port='22',
-                                      cidr_ip='%s/32' % self.config.get("ip", "10.255.24.10"))
+                                      cidr_ip='%s/32' % self.config.get("ip", "127.0.0.1"))
 
     def get_image_list(self):
         return [image.id for image in self.connect().get_all_images()]
@@ -37,10 +37,10 @@ class Puma():
         self.auth_group()
         image = self.get_image_list()
         try:
-            self.connect.run_instances(image_id=image_name,
+            self.connect().run_instances(image_id=image_name,
                                min_count=1,
                                placement=None,
-                               group_id=self.config.get('security_group', "defualt"),
+                               group_id=self.config.get('security_group', "default"),
                                instance_type="m1.tiny",
                                max_count=1,
                                key_name=self.config.get('keyfile', "keyfile.pem"))
