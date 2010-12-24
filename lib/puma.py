@@ -35,9 +35,8 @@ class Puma():
 
     def run_instance(self, image_name):
         #self.auth_group()
-        print self.connect().run_instances(image_id=image_name,
+        self.connect().run_instances(image_id=image_name,
                                min_count=1,
-                               placement=None,
                                instance_type="m1.tiny",
                                max_count=1)
 

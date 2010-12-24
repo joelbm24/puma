@@ -2,5 +2,5 @@
 westrc
 eastrc
 *.conf
-*.swp
+*.swo
 *.pyc
