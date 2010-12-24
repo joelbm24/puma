@@ -21,6 +21,9 @@ class CLI:
                 print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.state
 
 
+    def ssh(self, arg):
+        os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"] + " " + arg)
+
 cli = CLI()
 
 (options, args) = parser.parse_args()
@@ -34,6 +37,9 @@ if args[0] == "list":
 
 elif args[0] == "launch":
     cli.launch(args[1])
+
+elif args[0] == "ssh":
+    cli.ssh(args[1])
 
 else:
     print "ERROR: Not a valid expression " + '"' + str(args[0]) + '"'
