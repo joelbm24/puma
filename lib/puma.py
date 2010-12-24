@@ -38,7 +38,6 @@ class Puma():
         print self.connect().run_instances(image_id=image_name,
                                min_count=1,
                                placement=None,
-                               group_id=self.config.get('security_group', "default"),
                                instance_type="m1.tiny",
                                max_count=1)
 
