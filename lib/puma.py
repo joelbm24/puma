@@ -31,3 +31,5 @@ class Puma():
     def run_instance(self, image_name, num, type):
         return self.connect().run_instances(image_id=image_name, instance_type=type,key_name=self.keyname,
                                            max_count=num)
+    def terminate_instance(self, name):
+        return self.connect().terminate_instances(name)
