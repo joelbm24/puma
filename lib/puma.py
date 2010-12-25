@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/python
 
 import yaml, boto, os
 from boto.ec2.regioninfo import RegionInfo
