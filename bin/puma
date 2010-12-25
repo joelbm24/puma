@@ -7,10 +7,9 @@ puma = puma.Puma()
 from optparse import OptionParser
 parser = OptionParser()
 
-
 class CLI:
     def launch(self, arg):
-        puma.run_instance(arg)
+        puma.run_instance("ami-tiny")
 
     def list(self, arg):
         if arg == "images":
@@ -18,7 +17,7 @@ class CLI:
                 print image
         if arg == "instances":
             for instance in puma.get_instance_list():
-                print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.dns_name, "\t", instance.state
+                print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.dns_name, "\t", instance.state, "\t", instance.key_name
 
 
     def ssh(self, arg):
@@ -35,20 +34,25 @@ class CLI:
 
 cli = CLI()
 
+parser.add_option("--list", help="List instances or images", metavar="TYPE")
+parser.add_option("--launch", help="launch an image", metavar="IMAGE")
+parser.add_option("--ssh", help="ssh into an instance", metavar="INSTANCE")
+
 (options, args) = parser.parse_args()
-if args[0] == "list":
-    if args[1] == "images":
+
+if options.list:
+    if options.list == "images":
         cli.list("images")
-    elif args[1] == "instances":
+    elif options.list == "instances":
         cli.list("instances")
     else:
-        print "ERROR: Not a valid expression " + '"' + str(args[0]), str(args[1]) + '"'
+        print "ERROR: Not a valid expression"
 
-elif args[0] == "launch":
-    cli.launch(args[1])
+elif  options.launch == "launch":
+    cli.launch(options.launch)
 
-elif args[0] == "ssh":
-    cli.ssh(args[1])
+elif options.ssh == "ssh":
+    cli.ssh(options.ssh)
 
 else:
-    print "ERROR: Not a valid expression " + '"' + str(args[0]) + '"'
+    print "ERROR: Not a valid expression"

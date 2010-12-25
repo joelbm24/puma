@@ -4,3 +4,4 @@ eastrc
 *.conf
 *.swo
 *.pyc
+*.swp
