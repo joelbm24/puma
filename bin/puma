@@ -8,8 +8,8 @@ from optparse import OptionParser
 parser = OptionParser()
 
 class CLI:
-    def launch(self, arg):
-        puma.run_instance("ami-tiny")
+    def launch(self, name, num):
+        puma.run_instance(name, num)
 
     def list(self, arg):
         if arg == "images":
@@ -49,7 +49,10 @@ if options.list:
         print "ERROR: Not a valid expression"
 
 elif  options.launch:
-    cli.launch(options.launch)
+    try:
+        cli.launch(options.launch, args[0])
+    except:
+        cli.launch(options.launch, 1)
 
 elif options.ssh:
     cli.ssh(options.ssh)

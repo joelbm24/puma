@@ -22,19 +22,12 @@ class Puma():
                                 port=self.config.get('port', 8773),
                                 path=self.config.get('path', "services/Cloud"))
 
-    def auth_group(self):
-        self.connect.authorize_security_group(self.config.get("security_group", "default"),
-                                                      ip_protocol='tcp',
-                                                      from_port='22',
-                                                      to_port='22',
-                                      cidr_ip='%s/32' % self.config.get("ip", "127.0.0.1"))
-
     def get_image_list(self):
         return [image.id for image in self.connect().get_all_images()]
 
     def get_instance_list(self):
         return sum([instance.instances for instance in self.connect().get_all_instances()], [])
 
-    def run_instance(self, image_name):
-        #self.auth_group()
-        return self.connect().run_instances(image_id="ami-tiny", instance_type="m1.tiny",key_name=self.keyname)
+    def run_instance(self, image_name, num):
+        return self.connect().run_instances(image_id=image_name, instance_type="m1.tiny",key_name=self.keyname,
+                                           max_count=num)
