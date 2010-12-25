@@ -54,5 +54,7 @@ elif  options.launch:
 elif options.ssh:
     cli.ssh(options.ssh)
 
+elif options.list == None or options.ssh == None or options.launch == None:
+    print "try \"puma -h\" for options"
 else:
     print "ERROR: Not a valid expression"
