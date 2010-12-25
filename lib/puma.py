@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#! /usr/bin/python
 
 import yaml, boto, os
 from boto.ec2.regioninfo import RegionInfo
@@ -35,4 +35,4 @@ class Puma():
 
     def run_instance(self, image_name):
         #self.auth_group()
-        print self.connect().run_instances(image_id=image_name, instance_type="m1.tiny")
+        return self.connect().run_instances(image_id="ami-tiny", instance_type="m1.tiny")

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys, os
-sys.path.append(os.environ["HOME"] + '/novatools/puma/lib')
+sys.path.append(os.environ["HOME"] + '/puma/lib/')
 import puma
 puma = puma.Puma()
 from optparse import OptionParser
@@ -48,10 +48,10 @@ if options.list:
     else:
         print "ERROR: Not a valid expression"
 
-elif  options.launch == "launch":
+elif  options.launch:
     cli.launch(options.launch)
 
-elif options.ssh == "ssh":
+elif options.ssh:
     cli.ssh(options.ssh)
 
 else:
