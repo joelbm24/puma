@@ -68,7 +68,8 @@ elif options.ssh:
     cli.ssh(options.ssh)
 
 elif options.term:
-    cli.term(options.term)
+    args.append(options.term)
+    cli.term(args)
 
 elif options.list == None or options.ssh == None or options.launch == None or options.term == None:
     print "try \"puma -h\" for options"
