@@ -8,8 +8,8 @@ from optparse import OptionParser
 parser = OptionParser()
 
 class CLI:
-    def launch(self, name, num):
-        puma.run_instance(name, num)
+    def launch(self, name, num, type):
+        puma.run_instance(name, num, type)
 
     def list(self, arg):
         if arg == "images":
@@ -50,9 +50,15 @@ if options.list:
 
 elif  options.launch:
     try:
-        cli.launch(options.launch, args[0])
+        try:
+            try:
+                cli.launch(options.launch, int(args[0]), args[1])
+            except:
+                cli.launch(options.launch, int(args[0]), "m1.tiny")
+        except:
+            cli.launch(options.launch, 1, args[0])
     except:
-        cli.launch(options.launch, 1)
+        cli.launch(options.launch, 1, "m1.tiny")
 
 elif options.ssh:
     cli.ssh(options.ssh)

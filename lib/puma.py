@@ -28,6 +28,6 @@ class Puma():
     def get_instance_list(self):
         return sum([instance.instances for instance in self.connect().get_all_instances()], [])
 
-    def run_instance(self, image_name, num):
-        return self.connect().run_instances(image_id=image_name, instance_type="m1.tiny",key_name=self.keyname,
+    def run_instance(self, image_name, num, type):
+        return self.connect().run_instances(image_id=image_name, instance_type=type,key_name=self.keyname,
                                            max_count=num)
