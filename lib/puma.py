@@ -11,6 +11,7 @@ class Puma():
         except:
             print "ERROR: No config file. need to make one"
 
+        self.keyfile = self.puma_dir + "/creds/" + self.config["keyfile"]
     def connect(self):
         return boto.connect_ec2(aws_access_key_id=self.config["access_id"],
                                 aws_secret_access_key=self.config["access_secret"],
@@ -35,4 +36,4 @@ class Puma():
 
     def run_instance(self, image_name):
         #self.auth_group()
-        return self.connect().run_instances(image_id="ami-tiny", instance_type="m1.tiny")
+        return self.connect().run_instances(image_id="ami-tiny", instance_type="m1.tiny",key_name="joel")
