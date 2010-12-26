@@ -3,7 +3,8 @@ Description:
 
 Setup and Installation:
     1) Install the dependancies
-        a. Install boto: sudo apt-get install python-boto
+        a. Install boto: sudo apt-get install python-boto or downloading at
+        http://code.google.com/p/boto/downloads/list
         b. Download PyYaml: http://pyyaml.org/wiki/PyYAML
         c. Install PyYaml: cd /path/to/pyyaml; sudo setup.py install
 
@@ -33,4 +34,19 @@ Instructions of Use:
     For help type: puma -h
         $ puma -h
 
-    To view all instances type: puma --list instances.
+    To view all instances type: puma --list instances
+        $ puma --list instances
+
+    To view all images type: puma --list images
+        $ puma --list images
+
+    To launch an image you have to specify the image name: puma --launch ami-lucid
+    You can also specify what type and how many to launch at once.
+        $ puma --launch ami-lucid 2 m1.small
+
+    Note: You have to specify the amount before you can specify the type
+
+    To terminate an instance you have to type: puma --term i-xxxxxxx
+        $ puma --term i-xxxxxxx
+        or
+        $ puma --term i-xxxxxxx i-yyyyyyy
