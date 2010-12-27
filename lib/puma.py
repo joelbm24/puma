@@ -48,3 +48,9 @@ class Puma():
                                            max_count=num)
     def terminate_instance(self, name):
         return self.connect().terminate_instances(name)
+
+    def create_volume(self, size):
+        print "foo"
+
+    def get_volume_list(self):
+        return self.connect().get_all_volumes()

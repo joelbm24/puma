@@ -35,7 +35,9 @@ class CLI:
             for instance in puma.get_instance_list():
                 print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.dns_name, "\t", instance.state, "\t", instance.key_name
 
-
+        if arg == "volumes":
+            for vol in puma.get_volume_list():
+                print vol.id
     def ssh(self, arg):
         try:
             int(arg[0])
@@ -50,13 +52,16 @@ class CLI:
 
     def term(self, name):
         puma.terminate_instance(name)
+    def create_volume(self, size):
+        puma.create_volume(size)
 
 cli = CLI()
 
-parser.add_option("--list", help="List instances or images", metavar="TYPE")
+parser.add_option("--list", help="List instances, images volumes", metavar="TYPE")
 parser.add_option("--launch", help="launch an image", metavar="IMAGE")
 parser.add_option("--ssh", help="ssh into an instance", metavar="INSTANCE")
 parser.add_option("--term", help="terminates a specific instance", metavar="INSTANCE_ID")
+parser.add_option("--volume", help="create, attach, dettach, and destroy a volume", metavar="VOLUME")
 
 (options, args) = parser.parse_args()
 
@@ -65,6 +70,8 @@ if options.list:
         cli.list("images")
     elif options.list == "instances":
         cli.list("instances")
+    elif options.list == "volumes":
+        cli.list("volumes")
     else:
         print "ERROR: Not a valid expression"
 
@@ -86,6 +93,10 @@ elif options.ssh:
 elif options.term:
     args.append(options.term)
     cli.term(args)
+
+elif options.volume:
+    if options.volume == "create":
+        cli.create_volume(args[0])
 
 elif options.list == None or options.ssh == None or options.launch == None or options.term == None:
     print "try \"puma -h\" for options"
