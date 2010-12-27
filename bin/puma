@@ -37,7 +37,7 @@ class CLI:
 
         if arg == "volumes":
             for vol in puma.get_volume_list():
-                print vol.id
+                print vol.id, "\t", str(vol.size) + "GB"
     def ssh(self, arg):
         try:
             int(arg[0])
