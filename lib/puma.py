@@ -57,3 +57,9 @@ class Puma():
 
     def delete_volume(self, vol_name):
         return self.get_volume_list()[[vol.id for vol in self.get_volume_list()].index(vol_name)].delete()
+
+    def attach_volume(self, vol_name, inst, dev):
+        return self.get_volume_list()[[vol.id for vol in self.get_volume_list()].index(vol_name)].attach(inst,"/dev/"+dev)
+
+    def detach_volume(self, vol_name):
+        return self.get_volume_list()[[vol.id for vol in self.get_volume_list()].index(vol_name)].detach()
