@@ -96,8 +96,11 @@ elif options.term:
 
 elif options.volume:
     if options.volume == "create":
-        cli.create_volume(args[0])
-
+        try:
+            cli.create_volume(args[0])
+        except:
+            print "No size specified. Defaulting to 2GB"
+            cli.create_volume(2)
 elif options.list == None or options.ssh == None or options.launch == None or options.term == None:
     print "try \"puma -h\" for options"
 else:

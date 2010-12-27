@@ -50,7 +50,7 @@ class Puma():
         return self.connect().terminate_instances(name)
 
     def create_volume(self, size):
-        print "foo"
-
+        return self.connect().create_volume(size, zone=None,snapshot=None)
+        print self.create_volume().get_all_volumes()
     def get_volume_list(self):
         return self.connect().get_all_volumes()
