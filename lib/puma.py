@@ -51,6 +51,9 @@ class Puma():
 
     def create_volume(self, size):
         return self.connect().create_volume(size, zone=None,snapshot=None)
-        print self.create_volume().get_all_volumes()
+
     def get_volume_list(self):
-        return self.connect().get_all_volumes()
+        return [vol for vol in self.connect().get_all_volumes()]
+
+    def delete_volume(self, vol_name):
+        return self.get_volume_list()[[vol.id for vol in self.get_volume_list()].index(vol_name)].delete()

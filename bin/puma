@@ -54,14 +54,15 @@ class CLI:
         puma.terminate_instance(name)
     def create_volume(self, size):
         puma.create_volume(size)
-
+    def delete_volume(self, vol_name):
+        puma.delete_volume(vol_name)
 cli = CLI()
 
 parser.add_option("--list", help="List instances, images volumes", metavar="TYPE")
 parser.add_option("--launch", help="launch an image", metavar="IMAGE")
 parser.add_option("--ssh", help="ssh into an instance", metavar="INSTANCE")
 parser.add_option("--term", help="terminates a specific instance", metavar="INSTANCE_ID")
-parser.add_option("--volume", help="create, attach, dettach, and destroy a volume", metavar="VOLUME")
+parser.add_option("--volume", help="create, attach, detach, and destroy a volume", metavar="VOLUME")
 
 (options, args) = parser.parse_args()
 
@@ -101,6 +102,10 @@ elif options.volume:
         except:
             print "No size specified. Defaulting to 2GB"
             cli.create_volume(2)
+
+    elif options.volume == "delete":
+        cli.delete_volume(args[0])
+
 elif options.list == None or options.ssh == None or options.launch == None or options.term == None:
     print "try \"puma -h\" for options"
 else:
