@@ -113,12 +113,21 @@ elif options.volume:
             cli.delete_volume(args[0])
         except:
             print "ERROR: Need to specify a volume"
+            print "Usage: puma --volume delete <volume name>"
 
     elif options.volume == "attach":
-        cli.attach_volume(args[0], args[1], args[2])
+        try:
+            cli.attach_volume(args[0], args[1], args[2])
+        except:
+            print "ERROR: Need to specify the volume name, instance name and device name"
+            print "Usage: puma --volume attach <volume name> <instance name> <device name>"
 
     elif options.volume == "detach":
-        cli.detach_volume(args[0])
+        try:
+            cli.detach_volume(args[0])
+        except:
+            print "ERROR: Need to specify volume name"
+            print "Usage: puma --volume detach <volume name>"
 
 elif options.list == None or options.ssh == None or options.launch == None or options.term == None:
     print "try \"puma -h\" for options"
