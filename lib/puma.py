@@ -14,7 +14,6 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-
 import yaml, boto, os
 from boto.ec2.regioninfo import RegionInfo
 

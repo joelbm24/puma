@@ -14,8 +14,6 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-
-
 import sys, os
 sys.path.append(os.environ["HOME"] + '/puma/lib')
 import puma
