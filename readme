@@ -31,7 +31,7 @@ Setup and Installation:
     You should fill in the key file with the apropriate information unless the defualts are fine for you.
 
     5) Edit your bashrc file to include the line:
-        export PATH=${PATH}:/home/joel/puma/bin
+        export PATH=${PATH}:/home/<username>/puma/bin
 
 Instructions of Use:
     For help type:
