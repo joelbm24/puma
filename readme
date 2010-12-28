@@ -31,22 +31,38 @@ Setup and Installation:
     You should fill in the key file with the apropriate information unless the defualts are fine for you.
 
 Instructions of Use:
-    For help type: puma -h
+    For help type:
         $ puma -h
 
-    To view all instances type: puma --list instances
+    To view all instances:
         $ puma --list instances
 
-    To view all images type: puma --list images
+    To view all images:
         $ puma --list images
 
-    To launch an image you have to specify the image name: puma --launch ami-lucid
+    To view all volumes:
+        $ puma --list volumes
+
+    To launch an image you have to specify the image name:
+        $ puma --launch <image>
     You can also specify what type and how many to launch at once.
-        $ puma --launch ami-lucid 2 m1.small
+        $ puma --launch <image> <count> <type>
 
     Note: You have to specify the amount before you can specify the type
 
-    To terminate an instance you have to type: puma --term i-xxxxxxx
-        $ puma --term i-xxxxxxx
+    To terminate an instance:
+        $ puma --term <instance>
         or
-        $ puma --term i-xxxxxxx i-yyyyyyy
+        $ puma --term <instance> <instance>
+
+    To create a volume:
+        $ puma --volume create <volume size in GB>
+
+    To attach a volume, you have to specify the volume, instance and device name in that order:
+        $ puma --volume attach <volume> <instance> <device>
+
+    To detach a volume:
+        $ puma --volume detach <volume>
+
+    To delete a volume:
+        $ puma --volume delete <volume>
