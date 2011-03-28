@@ -28,7 +28,11 @@ class CLI:
     def list(self, arg):
         if arg == "images":
             for image in puma.get_image_list():
-                print image.id.find("ami-")
+                try:
+                    print re.search("ami-\w+", str(image.id)).group()
+
+                except:
+                    pass
         if arg == "instances":
             for instance in puma.get_instance_list():
                 print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.dns_name, "\t", instance.state, "\t", instance.key_name
@@ -38,13 +42,14 @@ class CLI:
                 print vol.id, "\t", str(vol.size) + "GB", "\t", vol.status
 
     def ssh(self, arg):
+        # TODO add better error checking
         if re.search("\d", arg):
             os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"] + " " + arg)
         else:
             try:
                 for instance in puma.get_instance_list():
-                     if str(instance.id) == arg:
-                         os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"]+" "+instance.dns_name)
+                    if str(instance.id) == arg:
+                        os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"]+" "+instance.dns_name)
             except ValueError:
                 print "ERROR: Instance does not exist"
 
