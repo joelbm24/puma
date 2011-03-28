@@ -28,11 +28,11 @@ class CLI:
     def list(self, arg):
         if arg == "images":
             for image in puma.get_image_list():
-                try:
-                    print re.search("ami-\w+", str(image.id)).group()
-
-                except:
+                if image.id.find('ami') == 0:
+                    print image.id + "\t" + str(image.displayName)
+                else:
                     pass
+
         if arg == "instances":
             for instance in puma.get_instance_list():
                 print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.dns_name, "\t", instance.state, "\t", instance.key_name
