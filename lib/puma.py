@@ -37,7 +37,7 @@ class Puma():
                                 path=self.config.get('path', "services/Cloud"))
 
     def get_image_list(self):
-        return [image.id for image in self.connect().get_all_images()]
+        return [image for image in self.connect().get_all_images()]
 
     def get_instance_list(self):
         return sum([instance.instances for instance in self.connect().get_all_instances()], [])

@@ -14,7 +14,7 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-import sys, os
+import sys, os, re
 sys.path.append(os.environ["HOME"] + '/puma/lib')
 import puma
 puma = puma.Puma()
@@ -28,7 +28,7 @@ class CLI:
     def list(self, arg):
         if arg == "images":
             for image in puma.get_image_list():
-                print image
+                print image.id.find("ami-")
         if arg == "instances":
             for instance in puma.get_instance_list():
                 print instance.id, "\t", instance.image_id, "\t", instance.instance_type, "\t", instance.dns_name, "\t", instance.state, "\t", instance.key_name
@@ -36,11 +36,11 @@ class CLI:
         if arg == "volumes":
             for vol in puma.get_volume_list():
                 print vol.id, "\t", str(vol.size) + "GB", "\t", vol.status
+
     def ssh(self, arg):
-        try:
-            int(arg[0])
+        if re.search("\d", arg):
             os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"] + " " + arg)
-        except:
+        else:
             try:
                 for instance in puma.get_instance_list():
                      if str(instance.id) == arg:
@@ -79,7 +79,7 @@ if options.list:
     else:
         print "ERROR: Not a valid expression"
 
-elif  options.launch:
+elif options.launch:
     try:
         try:
             try:
