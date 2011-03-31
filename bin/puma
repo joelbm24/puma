@@ -28,8 +28,8 @@ class CLI:
     def list(self, arg):
         if arg == "images":
             for image in puma.get_image_list():
-                if image.id.find('ami') == 0:
-                    print image.id + "\t" + str(image.displayName)
+                if image.type == 'machine':
+                    print image.id + "\t" + str(image.owner_id)
                 else:
                     pass
 
@@ -41,17 +41,37 @@ class CLI:
             for vol in puma.get_volume_list():
                 print vol.id, "\t", str(vol.size) + "GB", "\t", vol.status
 
+        if arg == "keys":
+            for key in puma.get_keypairs():
+                print key.name, "\t", key.fingerprint
+
     def ssh(self, arg):
         # TODO add better error checking
         if re.search("\d", arg):
-            os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"] + " " + arg)
+            os.system("ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"] + " " + arg)
         else:
             try:
                 for instance in puma.get_instance_list():
                     if str(instance.id) == arg:
-                        os.system("sudo ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"]+" "+instance.dns_name)
+                        os.system("ssh -i" + puma.puma_dir+"/creds/"+puma.config["keyfile"]+" "+instance.dns_name)
             except ValueError:
                 print "ERROR: Instance does not exist"
+
+    def key(self, arg, name):
+        if arg == 'add':
+            try:
+                print puma.add_key(name).material
+            except:
+                print "ERROR: Key already added"
+
+        if arg == "delete":
+            key_names = []
+            for key in puma.get_keypairs():
+                key_names.append(key.name)
+            try:
+                puma.delete_keypair(key_names[key_names.index(name)])
+            except:
+                print "ERROR: Keypair does not exist"
 
     def term(self, name):
         puma.terminate_instance(name)
@@ -66,11 +86,13 @@ class CLI:
 
 cli = CLI()
 
-parser.add_option("--list", help="List instances, images volumes", metavar="TYPE")
+parser.add_option("--list", help="list instances, images volumes", metavar="TYPE")
 parser.add_option("--launch", help="launch an image", metavar="IMAGE")
 parser.add_option("--ssh", help="ssh into an instance", metavar="INSTANCE")
 parser.add_option("--term", help="terminates a specific instance", metavar="INSTANCE_ID")
-parser.add_option("--volume", help="create, attach, detach, and destroy a volume", metavar="VOLUME")
+parser.add_option("--volume", help="create, attach, detach, and destroy a volume", metavar="OPTION VOLUME")
+parser.add_option("--key", help="create, delete a key", metavar="OPTION KEY")
+parser.add_option("--package", help="bundles, registers and uploads an image", metavar="IMAGE")
 
 (options, args) = parser.parse_args()
 
@@ -81,6 +103,8 @@ if options.list:
         cli.list("instances")
     elif options.list == "volumes":
         cli.list("volumes")
+    elif options.list == "keys":
+        cli.list('keys')
     else:
         print "ERROR: Not a valid expression"
 
@@ -132,7 +156,17 @@ elif options.volume:
             print "ERROR: Need to specify volume name"
             print "Usage: puma --volume detach <volume name>"
 
-elif options.list == None or options.ssh == None or options.launch == None or options.term == None:
-    print "try \"puma -h\" for options"
+elif options.package:
+    if options.package != None:
+        print "Not implemented yet"
+
+elif options.key:
+    if options.key == "add":
+        cli.key('add', args[0])
+    if options.key == 'delete':
+        cli.key('delete', args[0])
+
+elif options.list == None:
+    print "Try \"puma -h\" for options"
 else:
     print "ERROR: Not a valid expression"

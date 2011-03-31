@@ -51,11 +51,20 @@ class Puma():
     def create_volume(self, size):
         return self.connect().create_volume(size, zone=None,snapshot=None)
 
+    def add_key(self, name):
+        return self.connect().create_key_pair(name)
+
     def get_volume_list(self):
         return [vol for vol in self.connect().get_all_volumes()]
 
+    def get_keypairs(self):
+        return [key for key in self.connect().get_all_key_pairs()]
+
     def delete_volume(self, vol_name):
         return self.get_volume_list()[[vol.id for vol in self.get_volume_list()].index(vol_name)].delete()
+
+    def delete_keypair(self, key_name):
+        return self.connect().delete_key_pair(key_name)
 
     def attach_volume(self, vol_name, inst, dev):
         return self.get_volume_list()[[vol.id for vol in self.get_volume_list()].index(vol_name)].attach(inst,"/dev/"+dev)
