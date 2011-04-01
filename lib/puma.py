@@ -71,3 +71,6 @@ class Puma():
 
     def detach_volume(self, vol_name):
         return self.get_volume_list()[[vol.id for vol in self.get_volume_list()].index(vol_name)].detach()
+
+    def set_puma_dir(self, dir):
+        self.puma_dir = dir
